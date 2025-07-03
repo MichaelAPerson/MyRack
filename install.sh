@@ -2,13 +2,11 @@
 
 set -euo pipefail
 
-# === HEADER ===
 echo -e "\n\033[1;35m=========================================\033[0m"
 echo -e "\033[1;36m  Installing MyRack Agent\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
-# === FUNCTION TO HANDLE ERRORS ===
 error_exit() {
   echo -e "\n\033[1;31m✖ Error: $1\033[0m"
   exit 1
@@ -16,24 +14,17 @@ error_exit() {
 
 trap 'error_exit "Something went wrong during installation."' ERR
 
-# === GET PI IP ===
 get_pi_ip() {
   hostname -I | awk '{print $1}'
 }
 
-# === SYSTEM UPDATE + NODE.JS ===
 echo "[*] Updating package list..."
 sudo apt update || error_exit "Failed to update packages."
 
-echo "[*] Installing Node.js and npm..."
+echo "[*] Installing Node.js, npm, git..."
 sudo apt install -y nodejs npm git || error_exit "Failed to install Node.js/npm."
 
-# === PM2 INSTALLATION ===
-echo "[*] Installing PM2..."
-sudo npm install -g pm2 || error_exit "Failed to install PM2."
-
-# === SETUP AGENT ===
-echo "[*] Creating agent directory..."
+echo "[*] Setting up MyRack agent directory..."
 mkdir -p ~/myrack-agent
 cd ~/myrack-agent
 
@@ -43,7 +34,6 @@ npm init -y || error_exit "npm init failed."
 echo "[*] Installing dependencies..."
 npm install express systeminformation cors || error_exit "Dependency install failed."
 
-# === WRITE index.js ===
 echo "[*] Writing server code..."
 cat << 'EOF' > index.js
 const express = require('express');
@@ -79,23 +69,44 @@ app.get('/stats', async (req, res) => {
 
 const PORT = 4000;
 app.listen(PORT, () => {
-  console.log(\`MyRack agent running at http://localhost:\${PORT}/stats\`);
+  console.log(`MyRack agent running at http://localhost:${PORT}/stats`);
 });
 EOF
 
-# === RUNNING WITH PM2 ===
-echo "[*] Starting agent with PM2..."
-pm2 start index.js --name myrack-agent || error_exit "Failed to start agent with PM2."
+echo "[*] Creating systemd service file..."
 
-echo "[*] Saving PM2 process list..."
-pm2 save || error_exit "Failed to save PM2 process."
+SERVICE_FILE="/etc/systemd/system/myrack-agent.service"
 
-echo "[*] Enabling startup on boot..."
-pm2 startup systemd -u $USER --hp $HOME | tail -n 1 | bash || error_exit "Failed to enable PM2 startup."
+sudo bash -c "cat > $SERVICE_FILE" << EOF
+[Unit]
+Description=MyRack Agent
+After=network.target
 
-# === SHOW IP ===
+[Service]
+User=$USER
+WorkingDirectory=$HOME/myrack-agent
+ExecStart=$(which node) index.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+echo "[*] Reloading systemd daemon..."
+sudo systemctl daemon-reload || error_exit "Failed to reload systemd."
+
+echo "[*] Enabling and starting myrack-agent service..."
+sudo systemctl enable myrack-agent || error_exit "Failed to enable service."
+sudo systemctl start myrack-agent || error_exit "Failed to start service."
+
 PI_IP=$(get_pi_ip)
 
-# === SUCCESS ===
 echo -e "\n\033[1;32m✔ MyRack Agent installed and running!\033[0m"
 echo -e "\033[1;34m  View stats at: http://$PI_IP:4000/stats\033[0m"
+
+echo -e "\n\033[1;35m=========================================\033[0m"
+echo -e "\033[1;36m  Installed MyRack Agent\033[0m"
+echo -e "\033[1;32m  By: Michael Fischer\033[0m"
+echo -e "\033[1;35m=========================================\033[0m\n"
