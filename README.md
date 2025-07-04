@@ -20,9 +20,3 @@ To install the dashboard (only needed on one device) pleace run:
   Mac: curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh | bash
   
 
- __  __       ____            _
-|  \/  |_   _|  _ \ __ _  ___| | __
-| |\/| | | | | |_) / _\` |/ __| |/ /
-| |  | | |_| |  _ < (_| | (__|   <
-|_|  |_|\__, |_| \_\__,_|\___|_|\_\
-        |___/
