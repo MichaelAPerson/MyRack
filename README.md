@@ -23,23 +23,21 @@ No cloud — your data stays on your machines.
 Install this on every device you want to monitor.
 
 ### 🐧 Linux / 🍎 Mac
-```bash
+```
 curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.sh | bash
-🪟 Windows PowerShell
-powershell
-Copy
-Edit
+```
+### 🪟 Windows
+```
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.sh" -UseBasicParsing | Invoke-Expression
-📊 Install the Dashboard
+```
+## 📊 Install the Dashboard
 Only one device needs the dashboard (usually your main machine or server).
 
-🐧 Linux / 🍎 Mac
-bash
-Copy
-Edit
+### 🐧 Linux / 🍎 Mac
+```
 curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh | bash
-🪟 Windows PowerShell
-powershell
-Copy
-Edit
+```
+### 🪟 Windows PowerShell
+```
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh" -UseBasicParsing | Invoke-Expression
+```
