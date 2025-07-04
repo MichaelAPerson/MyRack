@@ -7,6 +7,20 @@ echo -e "\033[1;36m  Installing MyRack Agent\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
+echo -e "\n\033[1;35m=========================================\033[0m"
+echo -e "\033[1;36m
+ __  __       ____            _
+|  \/  |_   _|  _ \ __ _  ___| | __
+| |\/| | | | | |_) / _\` |/ __| |/ /
+| |  | | |_| |  _ < (_| | (__|   <
+|_|  |_|\__, |_| \_\__,_|\___|_|\_\
+        |___/
+
+\033[0m"
+
+echo -e "\n\033[1;35m=========================================\033[0m"
+
+
 error_exit() {
   echo -e "\n\033[1;31m✖ Error: $1\033[0m"
   exit 1
@@ -104,7 +118,8 @@ sudo systemctl start myrack-agent || error_exit "Failed to start service."
 PI_IP=$(get_pi_ip)
 
 echo -e "\n\033[1;32m✔ MyRack Agent installed and running!\033[0m"
-echo -e "\033[1;34m  View stats at: http://$PI_IP:4000/stats\033[0m"
+echo -e "\033[1;34m  Add this device to your MyRack dashboard with: http://$PI_IP\033[0m"
+echo -e "\033[1;34m  If you dont have the MyRack dashboard setup, you can install it with : curl -s https://raw.githubusercontent.com/MyRack/myrack-agent/master/install-agent.sh |
 
 echo -e "\n\033[1;35m=========================================\033[0m"
 echo -e "\033[1;36m  Installed MyRack Agent\033[0m"
