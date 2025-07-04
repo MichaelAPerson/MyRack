@@ -5,15 +5,20 @@ What is MyRack?
 
 To install the agent please run:
 
-  Linux: curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack./main/install-agent.sh | bash
-  Windows Powershell: Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack./main/install-agent.sh" -UseBasicParsing | Invoke-Expression
+  Linux: curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.sh | bash
+  
+  Windows Powershell: Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.sh" -UseBasicParsing | Invoke-Expression
+  
   Mac: curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.sh | bash
 
 To install the dashboard (only needed on one device) pleace run:
 
-  Linux: curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack./main/install-dashboard.sh | bash
-  Windows Powershell: Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack./main/install-dashboard.sh" -UseBasicParsing | Invoke-Expression
+  Linux: curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh | bash
+  
+  Windows Powershell: Invoke-WebRequest -Uri "https://raw.githubusercontentcom/MichaelAPerson/myrack./main/install-dashboard.sh" -UseBasicParsing | Invoke-Expression
+  
   Mac: curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh | bash
+  
 
  __  __       ____            _
 |  \/  |_   _|  _ \ __ _  ___| | __
