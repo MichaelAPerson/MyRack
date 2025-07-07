@@ -38,6 +38,9 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     }
 }
 
+$ip = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias 'Ethernet','Wi-Fi' | Where-Object { $_.IPAddress -notlike '169.*' -and $_.IPAddress -ne '127.0.0.1' }).IPAddress[0]
+
+
 Write-Host "[*] Creating MyRack agent directory..."
 $agentPath = "$env:USERPROFILE\myrack-agent"
 New-Item -ItemType Directory -Path $agentPath -Force | Out-Null
@@ -102,4 +105,4 @@ try {
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Principal $principal
 
 Write-Host "`n✔ MyRack Agent installed and will run on login!" -ForegroundColor Green
-Write-Host "  View stats at: http://localhost:4000/stats" -ForegroundColor Cyan
+Write-Host "   Add this device to your MyRack dashboard with: $ip" -ForegroundColor Blue
