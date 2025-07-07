@@ -28,7 +28,7 @@ curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-
 ```
 ### 🪟 Windows
 ```
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.sh" -UseBasicParsing | Invoke-Expression
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.ps1" -UseBasicParsing | Invoke-Expression
 ```
 ## 📊 Install the Dashboard
 Only one device needs the dashboard (usually your main machine or server).
