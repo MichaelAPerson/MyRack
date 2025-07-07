@@ -122,7 +122,8 @@ PI_IP=$(get_pi_ip)
 
 echo -e "\n\033[1;32m✔ MyRack Agent installed and running!\033[0m"
 echo -e "\033[1;34m  Add this device to your MyRack dashboard with: $PI_IP\033[0m"
-echo -e "\033[1;34m  If you dont have the MyRack dashboard setup, you can install it with : curl -s https://raw.githubusercontent.com/MyRack/myrack-agent/master/install-agent.sh |
+echo -e "\033[1;34m  If you don't have the MyRack dashboard setup, install it with:\033[0m"
+echo -e "\033[1;36m  curl -s https://raw.githubusercontent.com/MyRack/myrack-agent/master/install-agent.sh | bash\033[0m"
 
 echo -e "\n\033[1;35m=========================================\033[0m"
 echo -e "\033[1;36m  Installed MyRack Agent\033[0m"
