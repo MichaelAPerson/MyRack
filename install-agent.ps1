@@ -4,7 +4,7 @@
 $ErrorActionPreference = 'Stop'
 
 Write-Host "`n=========================================" -ForegroundColor Magenta
-Write-Host "  Installing MyRack Agent v1.3 Windows Edition" -ForegroundColor Cyan
+Write-Host "  Installing MyRack Agent v1.4 Windows Edition" -ForegroundColor Cyan
 Write-Host "  By: Michael Fischer" -ForegroundColor Green
 Write-Host "=========================================`n" -ForegroundColor Magenta
 
@@ -38,10 +38,15 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     }
 }
 
+# Get the local IP address
 $ip = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias 'Ethernet','Wi-Fi' | Where-Object {
     $_.IPAddress -notlike '169.*' -and $_.IPAddress -ne '127.0.0.1'
 } | Select-Object -First 1).IPAddress
 
+if (-not $ip) {
+    $ip = "localhost"
+    Write-Host "⚠ Could not detect local IP. Defaulting to localhost." -ForegroundColor Yellow
+}
 
 Write-Host "[*] Creating MyRack agent directory..."
 $agentPath = "$env:USERPROFILE\myrack-agent"
@@ -89,7 +94,7 @@ app.get('/stats', async (req, res) => {
 
 const PORT = 4000;
 app.listen(PORT, () => {
-  console.log(\`MyRack agent running at http://localhost:\${PORT}/stats\`);
+  console.log(`MyRack agent running at http://localhost:${PORT}/stats`);
 });
 "@ | Out-File "$agentPath\index.js" -Encoding UTF8
 
@@ -106,5 +111,14 @@ try {
 
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Principal $principal
 
+# Open firewall port 4000
+Write-Host "[*] Creating firewall rule for port 4000..."
+New-NetFirewallRule -DisplayName "Allow MyRack Agent" -Direction Inbound -LocalPort 4000 -Protocol TCP -Action Allow -Profile Any -ErrorAction SilentlyContinue
+
+# Start agent immediately
+Write-Host "[*] Starting MyRack Agent now..."
+Start-Process node "$agentPath\index.js"
+
 Write-Host "`n✔ MyRack Agent installed and will run on login!" -ForegroundColor Green
-Write-Host "   Add this device to your MyRack dashboard with: $ip" -ForegroundColor Blue
+Write-Host "📡 Access from: http://$ip:4000/stats" -ForegroundColor Cyan
+Write-Host "🌐 Add this device to your MyRack dashboard using the IP above." -ForegroundColor Blue
