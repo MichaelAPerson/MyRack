@@ -38,7 +38,9 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     }
 }
 
-$ip = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias 'Ethernet','Wi-Fi' | Where-Object { $_.IPAddress -notlike '169.*' -and $_.IPAddress -ne '127.0.0.1' }).IPAddress[0]
+$ip = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias 'Ethernet','Wi-Fi' | Where-Object {
+    $_.IPAddress -notlike '169.*' -and $_.IPAddress -ne '127.0.0.1'
+} | Select-Object -First 1).IPAddress
 
 
 Write-Host "[*] Creating MyRack agent directory..."
