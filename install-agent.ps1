@@ -1,10 +1,10 @@
-# MyRack Windows Agent Installer v1.5
+# MyRack Windows Agent Installer v1.6
 # Author: Michael Fischer
 
 $ErrorActionPreference = 'Stop'
 
 Write-Host "`n=========================================" -ForegroundColor Magenta
-Write-Host "  Installing MyRack Agent v1.5 Windows Edition" -ForegroundColor Cyan
+Write-Host "  Installing MyRack Agent v1.6 Windows Edition" -ForegroundColor Cyan
 Write-Host "  By: Michael Fischer" -ForegroundColor Green
 Write-Host "=========================================`n" -ForegroundColor Magenta
 
@@ -38,17 +38,14 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     }
 }
 
-# Get the active IP address
-$ip = Get-NetIPConfiguration |
-    Where-Object { $_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -eq "Up" } |
-    Select-Object -ExpandProperty IPv4Address |
-    Select-Object -First 1
+# Get the first valid IPv4 address
+$ip = (Get-NetIPAddress -AddressFamily IPv4 `
+        | Where-Object { $_.IPAddress -notlike '169.*' -and $_.IPAddress -ne '127.0.0.1' } `
+        | Select-Object -First 1).IPAddress
 
 if (-not $ip) {
     $ip = "localhost"
     Write-Host "⚠ Could not detect local IP. Defaulting to localhost." -ForegroundColor Yellow
-} else {
-    $ip = $ip.IPAddress
 }
 
 Write-Host "[*] Creating MyRack agent directory..."
