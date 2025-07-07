@@ -4,7 +4,7 @@
 $ErrorActionPreference = 'Stop'
 
 Write-Host "`n=========================================" -ForegroundColor Magenta
-Write-Host "  Installing MyRack Agent" -ForegroundColor Cyan
+Write-Host "  Installing MyRack Agent v1.3 Windows Edition" -ForegroundColor Cyan
 Write-Host "  By: Michael Fischer" -ForegroundColor Green
 Write-Host "=========================================`n" -ForegroundColor Magenta
 
