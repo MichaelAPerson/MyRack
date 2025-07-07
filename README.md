@@ -26,7 +26,7 @@ Install this on every device you want to monitor.
 ```
 curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.sh | bash
 ```
-### 🪟 Windows
+### 🪟 Windows (Powershell as Administrator)
 ```
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.ps1" -UseBasicParsing | Invoke-Expression
 ```
