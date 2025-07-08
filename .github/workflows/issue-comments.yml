@@ -8,10 +8,9 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send message to Discord
-        uses: Ilshidur/action-discord@master
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message: |
-            📝 **${{ github.actor }}** commented on issue [#${{ github.event.issue.number }}](${{ github.event.comment.html_url }}):
-            > ${{ github.event.comment.body }}
+      - name: Send message to Discord via curl
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"content\": \"📝 **${{ github.actor }}** commented on issue #${{ github.event.issue.number }}: ${{ github.event.comment.body }}\"}" \
+            ${{ secrets.DISCORD_WEBHOOK }}
