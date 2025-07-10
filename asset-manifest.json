@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/MyRack-site/static/css/main.d31085a6.css",
+    "main.js": "/MyRack-site/static/js/main.54dbef18.js",
+    "static/js/453.7aef3d84.chunk.js": "/MyRack-site/static/js/453.7aef3d84.chunk.js",
+    "index.html": "/MyRack-site/index.html",
+    "main.d31085a6.css.map": "/MyRack-site/static/css/main.d31085a6.css.map",
+    "main.54dbef18.js.map": "/MyRack-site/static/js/main.54dbef18.js.map",
+    "453.7aef3d84.chunk.js.map": "/MyRack-site/static/js/453.7aef3d84.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d31085a6.css",
+    "static/js/main.54dbef18.js"
+  ]
+}
