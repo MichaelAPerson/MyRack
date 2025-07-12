@@ -4,7 +4,7 @@
 $ErrorActionPreference = 'Stop'
 
 Write-Host "`n=========================================" -ForegroundColor Magenta
-Write-Host "  Installing MyRack Agent vBeta.7 Windows Edition" -ForegroundColor Cyan
+Write-Host "  Installing MyRack Agent vBeta.8 Windows Edition" -ForegroundColor Cyan
 Write-Host "  By: Michael Fischer" -ForegroundColor Green
 Write-Host "=========================================`n" -ForegroundColor Magenta
 
@@ -119,6 +119,6 @@ New-NetFirewallRule -DisplayName "Allow MyRack Agent" -Direction Inbound -LocalP
 Write-Host "[*] Starting MyRack Agent now..."
 Start-Process node "$agentPath\index.js"
 
-Write-Host "`n✔ MyRack Agent installed and will run on login!" -ForegroundColor Green
+Write-Host "n✔ MyRack Agent installed and will run on login!" -ForegroundColor Green
 Write-Host "📡 Access from: http://$ip:4000/stats" -ForegroundColor Cyan
 Write-Host "🌐 Add this device to your MyRack dashboard using the IP above." -ForegroundColor Blue
