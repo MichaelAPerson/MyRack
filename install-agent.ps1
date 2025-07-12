@@ -1,10 +1,10 @@
-# MyRack Windows Agent Installer vBeta.11
+# MyRack Windows Agent Installer vBeta.12
 # Author: Michael Fischer
 
 $ErrorActionPreference = 'Stop'
 
 Write-Host "`n=========================================" -ForegroundColor Magenta
-Write-Host "  Installing MyRack Agent vBeta.11 Windows Edition" -ForegroundColor Cyan
+Write-Host "  Installing MyRack Agent vBeta.12 Windows Edition" -ForegroundColor Cyan
 Write-Host "  By: Michael Fischer" -ForegroundColor Green
 Write-Host "=========================================`n" -ForegroundColor Magenta
 
@@ -138,5 +138,5 @@ Write-Host "[*] Starting MyRack Agent now..."
 Start-Process node "$agentPath\index.js"
 
 Write-Host "✔  MyRack Agent installed and will run on login!" -ForegroundColor Green
-Write-Host "📡 Access from: http://$ip:4000/stats" -ForegroundColor Cyan
+Write-Host ("📡 Access from: http://{0}:4000/stats" -f $ip) -ForegroundColor Cyan
 Write-Host "🌐 Add this device to your MyRack dashboard using the IP above." -ForegroundColor Blue
