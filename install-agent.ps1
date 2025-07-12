@@ -119,6 +119,6 @@ New-NetFirewallRule -DisplayName "Allow MyRack Agent" -Direction Inbound -LocalP
 Write-Host "[*] Starting MyRack Agent now..."
 Start-Process node "$agentPath\index.js"
 
-Write-Host "n✔ MyRack Agent installed and will run on login!" -ForegroundColor Green
+Write-Host "✔  MyRack Agent installed and will run on login!" -ForegroundColor Green
 Write-Host "📡 Access from: http://$ip:4000/stats" -ForegroundColor Cyan
 Write-Host "🌐 Add this device to your MyRack dashboard using the IP above." -ForegroundColor Blue
