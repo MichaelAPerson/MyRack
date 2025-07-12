@@ -1,10 +1,10 @@
-# MyRack Windows Agent Installer vBeta.9
+# MyRack Windows Agent Installer vBeta.10
 # Author: Michael Fischer
 
 $ErrorActionPreference = 'Stop'
 
 Write-Host "`n=========================================" -ForegroundColor Magenta
-Write-Host "  Installing MyRack Agent vBeta.9 Windows Edition" -ForegroundColor Cyan
+Write-Host "  Installing MyRack Agent vBeta.10 Windows Edition" -ForegroundColor Cyan
 Write-Host "  By: Michael Fischer" -ForegroundColor Green
 Write-Host "=========================================`n" -ForegroundColor Magenta
 
@@ -37,19 +37,26 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     }
 }
 
-# Get first valid LAN IP in private ranges: 192.168.x.x, 10.x.x.x, 172.16-31.x.x
-$ip = Get-NetIPAddress -AddressFamily IPv4 |
-    Where-Object {
-        $_.IPAddress -match '^192\.168\.|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.' -and
-        $_.IPAddress -ne '127.0.0.1' -and
-        $_.IPAddress -ne $null
-    } |
-    Select-Object -ExpandProperty IPAddress -First 1
+# Enhanced IP detection with debug output
+Write-Host "[*] Detecting LAN IP..."
+$ips = Get-NetIPAddress -AddressFamily IPv4 | Where-Object {
+    $_.IPAddress -ne '127.0.0.1' -and
+    $_.IPAddress -ne $null
+}
+
+Write-Host "All detected IPv4 addresses:"
+$ips | ForEach-Object { Write-Host " - $($_.IPAddress) (Interface: $($_.InterfaceAlias))" }
+
+$ip = $ips | Where-Object {
+    $_.IPAddress -match '^192\.168\.|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.'
+} | Select-Object -ExpandProperty IPAddress -First 1
 
 if (-not $ip) {
     Write-Host "❌ No valid LAN IP (192/10/172) found. Are you connected to a network?" -ForegroundColor Red
     exit 1
 }
+
+Write-Host "✅ Selected LAN IP: $ip"
 
 Write-Host "[*] Creating MyRack agent directory..."
 $agentPath = "$env:USERPROFILE\myrack-agent"
