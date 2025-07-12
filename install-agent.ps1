@@ -1,10 +1,10 @@
-# MyRack Windows Agent Installer vBeta.10
+# MyRack Windows Agent Installer vBeta.11
 # Author: Michael Fischer
 
 $ErrorActionPreference = 'Stop'
 
 Write-Host "`n=========================================" -ForegroundColor Magenta
-Write-Host "  Installing MyRack Agent vBeta.10 Windows Edition" -ForegroundColor Cyan
+Write-Host "  Installing MyRack Agent vBeta.11 Windows Edition" -ForegroundColor Cyan
 Write-Host "  By: Michael Fischer" -ForegroundColor Green
 Write-Host "=========================================`n" -ForegroundColor Magenta
 
@@ -37,22 +37,30 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     }
 }
 
-# Enhanced IP detection with debug output
+# Enhanced IP detection excluding virtual adapters
 Write-Host "[*] Detecting LAN IP..."
+
+# Get all IPv4 addresses except localhost
 $ips = Get-NetIPAddress -AddressFamily IPv4 | Where-Object {
-    $_.IPAddress -ne '127.0.0.1' -and
-    $_.IPAddress -ne $null
+    $_.IPAddress -ne '127.0.0.1' -and $_.IPAddress -ne $null
 }
 
-Write-Host "All detected IPv4 addresses:"
+Write-Host "All detected IPv4 addresses (before filtering):"
 $ips | ForEach-Object { Write-Host " - $($_.IPAddress) (Interface: $($_.InterfaceAlias))" }
 
-$ip = $ips | Where-Object {
-    $_.IPAddress -match '^192\.168\.|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.'
-} | Select-Object -ExpandProperty IPAddress -First 1
+# Filter out virtual interfaces by InterfaceAlias name
+$filteredIps = $ips | Where-Object {
+    ($_.InterfaceAlias -notmatch 'vEthernet|Loopback|Bluetooth|Tailscale|Local Area Connection\*') -and
+    ($_.IPAddress -match '^192\.168\.|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.')
+}
+
+Write-Host "Filtered IPv4 addresses (physical adapters only):"
+$filteredIps | ForEach-Object { Write-Host " - $($_.IPAddress) (Interface: $($_.InterfaceAlias))" }
+
+$ip = $filteredIps | Select-Object -ExpandProperty IPAddress -First 1
 
 if (-not $ip) {
-    Write-Host "❌ No valid LAN IP (192/10/172) found. Are you connected to a network?" -ForegroundColor Red
+    Write-Host "❌ No valid LAN IP found on physical adapter. Are you connected to a network?" -ForegroundColor Red
     exit 1
 }
 
