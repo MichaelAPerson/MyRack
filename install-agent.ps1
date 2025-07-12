@@ -1,4 +1,4 @@
-# MyRack Windows Agent Installer v1.6
+# MyRack Windows Agent Installer v1.8
 # Author: Michael Fischer
 
 $ErrorActionPreference = 'Stop'
