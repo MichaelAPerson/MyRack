@@ -1,10 +1,10 @@
-# MyRack Windows Agent Installer vBeta.8
+# MyRack Windows Agent Installer vBeta.9
 # Author: Michael Fischer
 
 $ErrorActionPreference = 'Stop'
 
 Write-Host "`n=========================================" -ForegroundColor Magenta
-Write-Host "  Installing MyRack Agent vBeta.8 Windows Edition" -ForegroundColor Cyan
+Write-Host "  Installing MyRack Agent vBeta.9 Windows Edition" -ForegroundColor Cyan
 Write-Host "  By: Michael Fischer" -ForegroundColor Green
 Write-Host "=========================================`n" -ForegroundColor Magenta
 
@@ -16,7 +16,6 @@ function Show-AsciiArt {
 | |  | | |_| |  _ < (_| | (__|   <
 |_|  |_|\__, |_| \_\__,_|\___|_|\_\
         |___/
-
 "@ | Write-Host -ForegroundColor Cyan
 }
 
@@ -38,14 +37,18 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     }
 }
 
-# Get the first valid IPv4 address
-$ip = (Get-NetIPAddress -AddressFamily IPv4 `
-        | Where-Object { $_.IPAddress -notlike '169.*' -and $_.IPAddress -ne '127.0.0.1' } `
-        | Select-Object -First 1).IPAddress
+# Get first valid LAN IP in private ranges: 192.168.x.x, 10.x.x.x, 172.16-31.x.x
+$ip = Get-NetIPAddress -AddressFamily IPv4 |
+    Where-Object {
+        $_.IPAddress -match '^192\.168\.|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.' -and
+        $_.IPAddress -ne '127.0.0.1' -and
+        $_.IPAddress -ne $null
+    } |
+    Select-Object -ExpandProperty IPAddress -First 1
 
 if (-not $ip) {
-    $ip = "localhost"
-    Write-Host "⚠ Could not detect local IP. Defaulting to localhost." -ForegroundColor Yellow
+    Write-Host "❌ No valid LAN IP (192/10/172) found. Are you connected to a network?" -ForegroundColor Red
+    exit 1
 }
 
 Write-Host "[*] Creating MyRack agent directory..."
@@ -94,7 +97,7 @@ app.get('/stats', async (req, res) => {
 
 const PORT = 4000;
 app.listen(PORT, () => {
-  console.log(`MyRack agent running at http://localhost:${PORT}/stats`);
+  console.log(\`MyRack agent running at http://localhost:\${PORT}/stats\`);
 });
 "@ | Out-File "$agentPath\index.js" -Encoding UTF8
 
