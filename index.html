@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyRack - Self-Hosted Server Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .badges {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .badges a img {
+      height: 28px;
+      vertical-align: middle;
+    }
+
+    .about-section {
+      max-width: 900px;
+      margin: 60px auto 40px;
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 32px 40px;
+      color: #e0f2f1;
+      box-shadow: 0 0 25px #06b6d4;
+      text-align: left;
+    }
+    .about-section h2 {
+      font-size: 2rem;
+      color: #06b6d4;
+      margin-bottom: 20px;
+    }
+    .about-section p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .about-list {
+      list-style: none;
+      padding-left: 0;
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .about-list li {
+      font-size: 22px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: #7dd3fc;
+    }
+    .about-list li span.emoji {
+      font-weight: bold;
+      font-size: 26px;
+      color: #06b6d4;
+    }
+    .about-section p.note {
+      font-style: italic;
+      color: #94a3b8;
+      font-size: 16px;
+      margin-top: 12px;
+    }
+
+    .install-columns {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      max-width: 900px;
+      margin: 40px auto 40px;
+      text-align: left;
+      flex-wrap: wrap;
+    }
+    .install-column {
+      flex: 1 1 45%;
+      background: #0f172a;
+      border-radius: 12px;
+      padding: 24px 28px;
+      box-shadow: 0 0 20px #06b6d4;
+      color: #e0f2f1;
+      min-width: 280px;
+      position: relative;
+    }
+    .install-column h2 {
+      margin-top: 0;
+      color: #06b6d4;
+    }
+    .install-column h3 {
+      margin-top: 18px;
+      color: #7dd3fc;
+    }
+    .install-column p {
+      margin-bottom: 12px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .install-column pre {
+      background: #1e293b;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: monospace;
+      color: #7dd3fc;
+      overflow-x: auto;
+      user-select: all;
+      margin-bottom: 20px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    @media (max-width: 700px) {
+      .install-columns {
+        flex-direction: column;
+        margin: 20px auto 60px;
+      }
+      .install-column {
+        flex: 1 1 100%;
+        margin-bottom: 24px;
+      }
+      .install-column pre {
+        padding-right: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1 class="title">MyRack</h1>
+    <p class="subtitle">Self-hosted, real-time Linux server monitoring — zero cloud required.</p>
+    <div class="buttons">
+      <a href="https://demo.myrack.ct.ws" class="btn primary">Launch Demo</a>
+      <a href="https://github.com/MichaelAPerson/myrack.github.io" target="_blank" rel="noopener" class="btn secondary">GitHub</a>
+    </div>
+  </header>
+
+  <!-- Preview -->
+  <section class="preview-section">
+    <img src="assets/preview.gif" alt="Dashboard Preview" class="preview-img" />
+    <p class="preview-caption">Live stats across all your Linux devices.</p>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="feature-card">
+      <h2>Real-Time Stats</h2>
+      <p>Live CPU, memory, storage, and network updates in one view.</p>
+    </div>
+    <div class="feature-card">
+      <h2>Works on Any Linux</h2>
+      <p>Raspberry Pi, virtual machines, servers — all supported.</p>
+    </div>
+    <div class="feature-card">
+      <h2>No Cloud</h2>
+      <p>Private. Local. No accounts or data collection.</p>
+    </div>
+  </section>
+
+  <!-- Two-column Install Section -->
+  <section class="install-columns">
+    <!-- Left: Install Agent -->
+    <div class="install-column">
+      <h2>📥 Install the Agent</h2>
+      <p>Install this on every device you want to monitor.</p>
+
+      <h3>🐧 Linux / 🍎 Mac</h3>
+      <pre id="agent-linux">curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.sh | bash</pre>
+
+      <h3>🪟 Windows (PowerShell as Administrator)</h3>
+      <pre id="agent-windows">Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-agent.ps1" -UseBasicParsing | Invoke-Expression</pre>
+    </div>
+
+    <!-- Right: Install Dashboard -->
+    <div class="install-column">
+      <h2>📊 Install the Dashboard</h2>
+      <p>Only one device needs the dashboard (usually your main machine or server).</p>
+
+      <h3>🐧 Linux / 🍎 Mac</h3>
+      <pre id="dashboard-linux">curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh | bash</pre>
+
+      <h3>🪟 Windows PowerShell</h3>
+      <pre id="dashboard-windows">Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh" -UseBasicParsing | Invoke-Expression</pre>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <h2>📘 What is MyRack?</h2>
+    <p><strong>MyRack</strong> is a self-hosted monitoring tool for Linux computers and servers. It displays real-time usage of:</p>
+    <ul class="about-list">
+      <li><span class="emoji">💽</span>CPU</li>
+      <li><span class="emoji">🧠</span>Memory</li>
+      <li><span class="emoji">🌐</span>Network</li>
+      <li><span class="emoji">🗄️</span>Storage</li>
+    </ul>
+    <p class="note">No cloud — your data stays on your machines.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2025 MyRack — All systems monitored.
+  </footer>
+
+  <script>
+    // Copy content of pre block on click
+    document.querySelectorAll('pre').forEach(pre => {
+      pre.addEventListener('click', () => {
+        const text = pre.innerText || pre.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const original = pre.textContent;
+          pre.textContent = 'Copied!';
+          setTimeout(() => {
+            pre.textContent = original;
+          }, 1200);
+        }).catch(() => {
+          alert('Failed to copy');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
