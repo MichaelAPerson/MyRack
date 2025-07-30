@@ -703,7 +703,7 @@ body {
 EOF
 
 echo "[*] Installing additional dependencies..."
-npm install lucide-react recharts tailwindcss framer-motion shadcn/ui || error_exit "Failed to install extra dependencies."
+npm install lucide-react recharts tailwindcss framer-motion || error_exit "Failed to install extra dependencies."
 
 echo "[*] Initializing Tailwind..."
 npx tailwindcss init -p || error_exit "Tailwind init failed."
@@ -728,9 +728,6 @@ cat << 'EOF' > src/index.css
 @tailwind components;
 @tailwind utilities;
 EOF
-
-echo "[*] Starting the React development server..."
-npm start || error_exit "React app failed to start."
 
 echo "[*] Creating systemd service for MyRack Dashboard..."
 
@@ -761,9 +758,7 @@ sudo systemctl enable myrack-dashboard || error_exit "Failed to enable service."
 sudo systemctl start myrack-dashboard || error_exit "Failed to start service."
 
 echo -e "\n\033[1;32m✔ MyRack Dashboard is now running in the background and will start at boot!\033[0m"
-
-echo -e "\n\033[1;32m✔ MyRack Dashboard (React) is running!\033[0m"
-echo -e "\033[1;34m  Visit it at: http://localhost:3000\033[0m"
+echo -e "\033[1;34m  Access it at: http://localhost:3000\033[0m"
 echo -e "\n\033[1;35m=========================================\033[0m"
 echo -e "\033[1;36m  Installed MyRack Dashboard (React)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
