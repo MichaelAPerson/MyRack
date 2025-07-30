@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.4\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.6 Bash Edition\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
@@ -703,7 +703,9 @@ body {
 EOF
 
 echo "[*] Installing additional dependencies..."
-npm install lucide-react recharts tailwindcss framer-motion || error_exit "Failed to install extra dependencies."
+npm install lucide-react recharts tailwindcss framer-motion
+npm install -D tailwindcss postcss autoprefixer
+|| error_exit "Failed to install extra dependencies."
 
 echo "[*] Initializing Tailwind..."
 npx tailwindcss init -p || error_exit "Tailwind init failed."
