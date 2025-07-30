@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.7 Bash Edition\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.9 Bash Edition\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
@@ -12,10 +12,10 @@ echo -e "\n\033[1;35m=========================================\033[0m"
 cat <<EOF
 
  __  __       ____            _
-|  \/  |_   _|  _ \ __ _  ___| | __
-| |\/| | | | | |_) / _\` |/ __| |/ /
+|  \/  |_   _|  _ \\ __ _  ___| | __
+| |\\/| | | | | |_) / _\` |/ __| |/ /
 | |  | | |_| |  _ < (_| | (__|   <
-|_|  |_|\__, |_| \_\__,_|\___|_|\_\\
+|_|  |_|\\__, |_| \\_\\__,_|\\___|_|\\_\\
         |___/
 
 EOF
@@ -709,12 +709,12 @@ body {
 EOF
 
 echo "[*] Installing main dependencies..."
-npm install lucide-react recharts tailwindcss framer-motion || echo "[!] Warning: Non-fatal npm warning encountered during main dependency install."
+npm install lucide-react recharts framer-motion || echo "[!] Warning: npm had warnings during dependency install."
 
-echo "[*] Installing Tailwind dev dependencies..."
+echo "[*] Installing Tailwind CSS + PostCSS (for CRA)..."
 npm install -D tailwindcss postcss autoprefixer || error_exit "Failed to install Tailwind dev dependencies."
 
-echo "[*] Initializing Tailwind..."
+echo "[*] Initializing Tailwind config..."
 npx tailwindcss init -p || error_exit "Tailwind init failed."
 
 echo "[*] Writing tailwind.config.js..."
@@ -738,7 +738,7 @@ cat << 'EOF' > src/index.css
 @tailwind utilities;
 EOF
 
-echo "[*] Creating systemd service for MyRack Dashboard..."
+echo "[*] Creating systemd service..."
 
 SERVICE_FILE="/etc/systemd/system/myrack-dashboard.service"
 
@@ -761,14 +761,14 @@ Environment=NODE_ENV=production
 WantedBy=multi-user.target
 EOF
 
-echo "[*] Reloading systemd and enabling service..."
-sudo systemctl daemon-reload || error_exit "systemd reload failed."
-sudo systemctl enable myrack-dashboard || error_exit "Failed to enable service."
-sudo systemctl start myrack-dashboard || error_exit "Failed to start service."
+echo "[*] Enabling service to run on startup..."
+sudo systemctl daemon-reload
+sudo systemctl enable myrack-dashboard
+sudo systemctl start myrack-dashboard
 
-echo -e "\n\033[1;32m✔ MyRack Dashboard is now running in the background and will start at boot!\033[0m"
+echo -e "\n\033[1;32m✔ MyRack Dashboard is installed and running in the background!\033[0m"
 echo -e "\033[1;34m  Access it at: http://localhost:3000\033[0m"
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installed MyRack Dashboard (React)\033[0m"
+echo -e "\033[1;36m  Finished MyRack Dashboard Setup\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
