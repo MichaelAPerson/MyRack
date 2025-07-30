@@ -39,6 +39,12 @@ echo "[*] Installing create-react-app..."
 sudo npm install -g create-react-app || error_exit "Failed to install create-react-app."
 
 APP_DIR="$HOME/myrack-dashboard"
+
+if [ -d "$APP_DIR" ]; then
+  echo "[*] Cleaning up existing directory: $APP_DIR"
+  rm -rf "$APP_DIR"
+fi
+
 echo "[*] Creating React app in $APP_DIR..."
 create-react-app "$APP_DIR" || error_exit "create-react-app failed."
 
@@ -702,15 +708,16 @@ body {
 }
 EOF
 
-echo "[*] Installing additional dependencies..."
-npm install lucide-react recharts tailwindcss framer-motion
-npm install -D tailwindcss postcss autoprefixer
-error_exit "Failed to install extra dependencies."
+echo "[*] Installing main dependencies..."
+npm install lucide-react recharts tailwindcss framer-motion || echo "[!] Warning: Non-fatal npm warning encountered during main dependency install."
+
+echo "[*] Installing Tailwind dev dependencies..."
+npm install -D tailwindcss postcss autoprefixer || error_exit "Failed to install Tailwind dev dependencies."
 
 echo "[*] Initializing Tailwind..."
 npx tailwindcss init -p || error_exit "Tailwind init failed."
 
-echo "[*] Updating tailwind.config.js..."
+echo "[*] Writing tailwind.config.js..."
 cat << 'EOF' > tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
