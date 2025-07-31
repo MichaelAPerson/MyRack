@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.13 Bash Edition)\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.14 Bash Edition)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
@@ -56,8 +56,125 @@ echo "[*] Installing Tailwind CSS + PostCSS (for CRA)..."
 npm install -D tailwindcss postcss autoprefixer || error_exit "Failed to install Tailwind dev dependencies."
 
 echo "[*] Initializing Tailwind config..."
-# THIS IS THE NEW, MORE RELIABLE COMMAND
-./node_modules/.bin/tailwindcss init -p || error_exit "Tailwind init failed."
+# Use npx instead of direct binary path - this is more reliable
+npx tailwindcss init -p || error_exit "Tailwind init failed."
+
+# Alternative method if npx fails
+if [ ! -f "tailwind.config.js" ]; then
+    echo "[*] Trying alternative Tailwind initialization..."
+    # Create config files manually if npx fails
+    cat << 'EOF' > tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+EOF
+
+    cat << 'EOF' > postcss.config.js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+EOF
+fi
+
+echo "[*] Updating index.css..."
+cat << 'EOF' > src/index.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+EOF
+
+echo "[*] Writing App.css..."
+cat << 'EOF' > src/App.css
+/* Custom styles for MyRack Dashboard */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.recharts-wrapper {
+  border-radius: 4px;
+}
+
+.recharts-line-curve {
+  filter: drop-shadow(0 0 2px #00ffff);
+}
+
+/* Custom scrollbar for device list */
+.max-h-32::-webkit-scrollbar {
+  width: 4px;
+}
+
+.max-h-32::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 2px;
+}
+
+.max-h-32::-webkit-scrollbar-thumb {
+  background: #06b6d4;
+  border-radius: 2px;
+}
+
+.max-h-32::-webkit-scrollbar-thumb:hover {
+  background: #0891b2;
+}
+
+/* Glow effects */
+.shadow-cyan-500\/20 {
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+}
+
+.shadow-cyan-500\/30 {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+/* Animation for status indicators */
+.bg-green-500 {
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.bg-red-500 {
+  animation: pulse-red 1s infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.bg-yellow-500 {
+  animation: pulse-yellow 1.5s infinite;
+}
+
+@keyframes pulse-yellow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+EOF
 
 echo "[*] Replacing App.js..."
 cat << 'EOF' > src/App.js
@@ -133,7 +250,7 @@ const SetupModal = ({ userName, setUserName, devices, setDevices, onComplete }) 
             <button
               onClick={handleAddDevice}
               disabled={!deviceName.trim() || !deviceIP.trim()}
-              className="w-full py-2 mb-4 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400"
+              className="w-full py-2 mb-4 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Add Device
             </button>
@@ -157,11 +274,15 @@ const SetupModal = ({ userName, setUserName, devices, setDevices, onComplete }) 
             </div>
             <div>
               <span className="font-semibold text-cyan-400">Devices:</span>
-              <ul className="pl-4 list-disc">
-                {devices.map(d => (
-                  <li key={d.id}>{d.name} - {d.ip}</li>
-                ))}
-              </ul>
+              {devices.length === 0 ? (
+                <span className="text-yellow-400 ml-2">No devices added</span>
+              ) : (
+                <ul className="pl-4 list-disc">
+                  {devices.map(d => (
+                    <li key={d.id}>{d.name} - {d.ip}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         )}
@@ -179,7 +300,7 @@ const SetupModal = ({ userName, setUserName, devices, setDevices, onComplete }) 
             <button
               onClick={() => canContinue() && setStep(step + 1)}
               disabled={!canContinue()}
-              className="flex-1 py-2 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400"
+              className="flex-1 py-2 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>
@@ -187,7 +308,6 @@ const SetupModal = ({ userName, setUserName, devices, setDevices, onComplete }) 
           {step === 3 && (
             <button
               onClick={onComplete}
-              disabled={!userName.trim() || devices.length === 0}
               className="flex-1 py-2 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400"
             >
               Finish
@@ -259,9 +379,11 @@ const MyRack = () => {
       });
     };
 
-    fetchStats();
-    const interval = setInterval(fetchStats, 2000);
-    return () => clearInterval(interval);
+    if (devices.length > 0) {
+      fetchStats();
+      const interval = setInterval(fetchStats, 2000);
+      return () => clearInterval(interval);
+    }
   }, [devices]);
 
   useEffect(() => {
@@ -462,42 +584,27 @@ const MyRack = () => {
       </header>
 
       <main className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-          {servers.map(server => (
-            <ServerCard key={server.id} server={server} />
-          ))}
-        </div>
+        {servers.length === 0 ? (
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <Server size={64} className="text-cyan-400 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-cyan-400 mb-2">No Servers Connected</h2>
+              <p className="text-cyan-300">Add some devices in the setup to see your server dashboard.</p>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+            {servers.map(server => (
+              <ServerCard key={server.id} server={server} />
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );
 };
 
 export default MyRack;
-
-EOF
-
-echo "[*] Replacing App.css..."
-# App.css content is large, omitting for brevity, but it will be created by the script
-
-echo "[*] Writing tailwind.config.js..."
-cat << 'EOF' > tailwind.config.js
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-EOF
-
-echo "[*] Updating index.css..."
-cat << 'EOF' > src/index.css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 EOF
 
 echo "[*] Creating systemd service..."
@@ -517,7 +624,8 @@ ExecStart=$(which npm) start
 Restart=always
 RestartSec=5
 Environment=PATH=/usr/bin:/usr/local/bin:/usr/sbin:/sbin
-Environment=NODE_ENV=production
+Environment=NODE_ENV=development
+Environment=BROWSER=none
 
 [Install]
 WantedBy=multi-user.target
@@ -530,6 +638,8 @@ sudo systemctl start myrack-dashboard
 
 echo -e "\n\033[1;32m✔ MyRack Dashboard is installed and running in the background!\033[0m"
 echo -e "\033[1;34m  Access it at: http://localhost:3000\033[0m"
+echo -e "\n\033[1;33m  To check status: sudo systemctl status myrack-dashboard\033[0m"
+echo -e "\033[1;33m  To view logs: sudo journalctl -u myrack-dashboard -f\033[0m"
 echo -e "\n\033[1;35m=========================================\033[0m"
 echo -e "\033[1;36m  Finished MyRack Dashboard Setup\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
