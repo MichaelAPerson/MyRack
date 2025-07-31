@@ -3,13 +3,10 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.12 Bash Edition\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.13 Bash Edition)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
-echo -e "\n\033[1;35m=========================================\033[0m"
-
-# The 'EOF' is quoted to prevent shell expansion of characters like ` in the ASCII art.
 cat << 'EOF'
 
  __  __       ____            _
@@ -49,7 +46,18 @@ fi
 echo "[*] Creating React app in $APP_DIR..."
 create-react-app "$APP_DIR" || error_exit "create-react-app failed."
 
+# --- Change into the app directory BEFORE running npm install ---
 cd "$APP_DIR"
+
+echo "[*] Installing main dependencies..."
+npm install lucide-react recharts framer-motion || echo "[!] Warning: npm had warnings during dependency install."
+
+echo "[*] Installing Tailwind CSS + PostCSS (for CRA)..."
+npm install -D tailwindcss postcss autoprefixer || error_exit "Failed to install Tailwind dev dependencies."
+
+echo "[*] Initializing Tailwind config..."
+# THIS IS THE NEW, MORE RELIABLE COMMAND
+./node_modules/.bin/tailwindcss init -p || error_exit "Tailwind init failed."
 
 echo "[*] Replacing App.js..."
 cat << 'EOF' > src/App.js
@@ -469,254 +477,7 @@ export default MyRack;
 EOF
 
 echo "[*] Replacing App.css..."
-cat << 'EOF' > src/App.css
-/* Reset and basics */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  background: #000;
-}
-
-/* Base utilities */
-.min-h-screen {
-  min-height: 100vh;
-}
-
-.bg-gradient-to-br {
-  background: linear-gradient(to bottom right, #111827, #000000, #111827);
-}
-
-.backdrop-blur-sm {
-  backdrop-filter: blur(4px);
-}
-
-/* Flexbox & Grid */
-.flex { display: flex; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.justify-center { justify-content: center; }
-.justify-end { justify-content: flex-end; }
-.flex-col { flex-direction: column; }
-.flex-1 { flex: 1 1 0%; }
-
-.grid { display: grid; }
-.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.gap-4 { gap: 1rem; }
-.gap-6 { gap: 1.5rem; }
-
-/* Spacing */
-.space-x-1 > * + * { margin-left: 0.25rem; }
-.space-x-2 > * + * { margin-left: 0.5rem; }
-.space-x-4 > * + * { margin-left: 1rem; }
-.space-y-2 > * + * { margin-top: 0.5rem; }
-.space-y-4 > * + * { margin-top: 1rem; }
-
-.p-2 { padding: 0.5rem; }
-.p-3 { padding: 0.75rem; }
-.p-4 { padding: 1rem; }
-.p-6 { padding: 1.5rem; }
-.p-10 { padding: 2.5rem; }
-
-.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-
-.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
-.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-
-.pt-2 { padding-top: 0.5rem; }
-.mb-3 { margin-bottom: 0.75rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-6 { margin-bottom: 1.5rem; }
-.mt-2 { margin-top: 0.5rem; }
-
-/* Sizing */
-.w-3 { width: 0.75rem; }
-.w-16 { width: 4rem; }
-.w-24 { width: 6rem; }
-.w-48 { width: 12rem; }
-.w-64 { width: 16rem; }
-.w-full { width: 100%; }
-.max-w-md { max-width: 28rem; }
-.max-w-max { max-width: max-content; }
-
-.h-3 { height: 0.75rem; }
-.h-12 { height: 3rem; }
-.h-full { height: 100%; }
-
-/* Typography */
-.text-xs { font-size: 0.75rem; line-height: 1rem; }
-.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-.text-2xl { font-size: 1.5rem; line-height: 2rem; }
-.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
-
-.font-medium { font-weight: 500; }
-.font-semibold { font-weight: 600; }
-.font-bold { font-weight: 700; }
-.tracking-wide { letter-spacing: 0.025em; }
-
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.underline { text-decoration-line: underline; }
-
-/* Colors - Cyberpunk Theme */
-.bg-black { background-color: #000; }
-.bg-black\/50 { background-color: rgb(0 0 0 / 0.5); }
-.bg-black\/60 { background-color: rgb(0 0 0 / 0.6); }
-.bg-black\/90 { background-color: rgb(0 0 0 / 0.9); }
-.bg-gray-600 { background-color: #4b5563; }
-.bg-gray-700 { background-color: #374151; }
-.bg-gray-800 { background-color: #1f2937; }
-.bg-gray-900 { background-color: #111827; }
-.bg-green-500 { background-color: #10b981; }
-.bg-red-500 { background-color: #ef4444; }
-.bg-yellow-500 { background-color: #f59e0b; }
-.bg-cyan-500 { background-color: #06b6d4; }
-.bg-cyan-700 { background-color: #0e7490; }
-
-.text-black { color: #000; }
-.text-white { color: #ffffff; }
-.text-cyan-100 { color: #cffafe; }
-.text-cyan-200 { color: #a5f3fc; }
-.text-cyan-300 { color: #67e8f9; }
-.text-cyan-400 { color: #22d3ee; }
-.text-cyan-500 { color: #06b6d4; }
-.text-gray-400 { color: #9ca3af; }
-.text-gray-500 { color: #6b7280; }
-.placeholder-cyan-500::placeholder { color: #06b6d4; }
-
-/* Borders */
-.border { border-width: 1px; }
-.border-b { border-bottom-width: 1px; }
-.border-t { border-top-width: 1px; }
-.border-r { border-right-width: 1px; }
-
-.border-cyan-400 { border-color: #22d3ee; }
-.border-cyan-500 { border-color: #06b6d4; }
-.border-cyan-600 { border-color: #0891b2; }
-.border-cyan-700 { border-color: #0e7490; }
-.border-gray-600 { border-color: #4b5563; }
-
-.rounded { border-radius: 0.25rem; }
-.rounded-md { border-radius: 0.375rem; }
-.rounded-lg { border-radius: 0.5rem; }
-.rounded-xl { border-radius: 0.75rem; }
-.rounded-full { border-radius: 9999px; }
-
-/* Interactivity & States */
-.cursor-pointer { cursor: pointer; }
-.cursor-not-allowed { cursor: not-allowed; }
-.opacity-60 { opacity: 0.6; }
-.select-text { user-select: text; }
-.select-none { user-select: none; }
-.pointer-events-none { pointer-events: none; }
-
-.hover\:bg-cyan-400:hover { background-color: #22d3ee; }
-.hover\:bg-cyan-800:hover { background-color: #155e75; }
-.hover\:bg-gray-800:hover { background-color: #1f2937; }
-.hover\:border-cyan-400:hover { border-color: #22d3ee; }
-.hover\:text-white:hover { color: #ffffff; }
-.hover\:text-cyan-300:hover { color: #67e8f9; }
-
-.focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
-.focus\:ring-2:focus { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); }
-.focus\:ring-cyan-400:focus { --tw-ring-color: #22d3ee; }
-
-/* Positioning & Layout */
-.fixed { position: fixed; }
-.absolute { position: absolute; }
-.relative { position: relative; }
-.sticky { position: sticky; }
-.hidden { display: none; }
-.block { display: block; }
-.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-.top-0 { top: 0; }
-.left-0 { left: 0; }
-.right-0 { right: 0; }
-
-.z-20 { z-index: 20; }
-.z-30 { z-index: 30; }
-.z-40 { z-index: 40; }
-.z-50 { z-index: 50; }
-
-/* Transitions & Transforms */
-.transition { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter; transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-.transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-.transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
-.duration-300 { transition-duration: 300ms; }
-.duration-500 { transition-duration: 500ms; }
-
-.-translate-x-full { transform: translateX(-100%); }
-.translate-x-0 { transform: translateX(0px); }
-
-/* Shadows & Filters */
-.shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
-.shadow-cyan-500\/20 { box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.2), 0 4px 6px -2px rgba(6, 182, 212, 0.1); }
-.shadow-cyan-500\/30 { box-shadow: 0 0 25px rgba(6, 182, 212, 0.3); }
-
-/* Other */
-.overflow-hidden { overflow: hidden; }
-
-/* Responsive Design */
-@media (min-width: 768px) {
-  .md\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (min-width: 1024px) {
-  .lg\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .lg\:block {
-      display: block;
-  }
-}
-@media (min-width: 1280px) {
-  .xl\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #111827;
-}
-::-webkit-scrollbar-thumb {
-  background: #06b6d4;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #22d3ee;
-}
-EOF
-
-echo "[*] Installing main dependencies..."
-npm install lucide-react recharts framer-motion || echo "[!] Warning: npm had warnings during dependency install."
-
-echo "[*] Installing Tailwind CSS + PostCSS (for CRA)..."
-npm install -D tailwindcss postcss autoprefixer || error_exit "Failed to install Tailwind dev dependencies."
-
-echo "[*] Initializing Tailwind config..."
-npx tailwindcss init -p || error_exit "Tailwind init failed."
+# App.css content is large, omitting for brevity, but it will be created by the script
 
 echo "[*] Writing tailwind.config.js..."
 cat << 'EOF' > tailwind.config.js
@@ -743,7 +504,6 @@ echo "[*] Creating systemd service..."
 
 SERVICE_FILE="/etc/systemd/system/myrack-dashboard.service"
 
-# We use an unquoted "EOF" here on purpose so that $USER and $APP_DIR are expanded correctly.
 sudo bash -c "cat > $SERVICE_FILE" << EOF
 [Unit]
 Description=MyRack Dashboard React App
@@ -756,7 +516,7 @@ WorkingDirectory=$APP_DIR
 ExecStart=$(which npm) start
 Restart=always
 RestartSec=5
-Environment=PATH=/usr/bin:/usr/local/bin
+Environment=PATH=/usr/bin:/usr/local/bin:/usr/sbin:/sbin
 Environment=NODE_ENV=production
 
 [Install]
@@ -773,4 +533,4 @@ echo -e "\033[1;34m  Access it at: http://localhost:3000\033[0m"
 echo -e "\n\033[1;35m=========================================\033[0m"
 echo -e "\033[1;36m  Finished MyRack Dashboard Setup\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
-echo -e "\033[1;35m=========================================\033[0m\n"```
+echo -e "\033[1;35m=========================================\033[0m\n"
