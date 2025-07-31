@@ -3,13 +3,14 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.11 Bash Edition\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.12 Bash Edition\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
 echo -e "\n\033[1;35m=========================================\033[0m"
 
-cat <<EOF
+# The 'EOF' is quoted to prevent shell expansion of characters like ` in the ASCII art.
+cat << 'EOF'
 
  __  __       ____            _
 |  \/  |_   _|  _ \ __ _  ___| | __
@@ -742,6 +743,7 @@ echo "[*] Creating systemd service..."
 
 SERVICE_FILE="/etc/systemd/system/myrack-dashboard.service"
 
+# We use an unquoted "EOF" here on purpose so that $USER and $APP_DIR are expanded correctly.
 sudo bash -c "cat > $SERVICE_FILE" << EOF
 [Unit]
 Description=MyRack Dashboard React App
@@ -771,4 +773,4 @@ echo -e "\033[1;34m  Access it at: http://localhost:3000\033[0m"
 echo -e "\n\033[1;35m=========================================\033[0m"
 echo -e "\033[1;36m  Finished MyRack Dashboard Setup\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
-echo -e "\033[1;35m=========================================\033[0m\n"
+echo -e "\033[1;35m=========================================\033[0m\n"```
