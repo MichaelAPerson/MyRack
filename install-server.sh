@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.9 Bash Edition\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.10 Bash Edition\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
@@ -464,7 +464,6 @@ const MyRack = () => {
 };
 
 export default MyRack;
-
 EOF
 
 echo "[*] Replacing App.css..."
