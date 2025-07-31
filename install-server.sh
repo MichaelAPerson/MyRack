@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.10 Bash Edition\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.11 Bash Edition\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
@@ -12,10 +12,10 @@ echo -e "\n\033[1;35m=========================================\033[0m"
 cat <<EOF
 
  __  __       ____            _
-|  \/  |_   _|  _ \\ __ _  ___| | __
-| |\\/| | | | | |_) / _\` |/ __| |/ /
+|  \/  |_   _|  _ \ __ _  ___| | __
+| |\/| | | | | |_) / _` |/ __| |/ /
 | |  | | |_| |  _ < (_| | (__|   <
-|_|  |_|\\__, |_| \\_\\__,_|\\___|_|\\_\\
+|_|  |_|\__, |_| \_\__,_|\___|_|\_\
         |___/
 
 EOF
@@ -30,10 +30,10 @@ error_exit() {
 trap 'error_exit "Something went wrong during installation."' ERR
 
 echo "[*] Updating package list..."
-sudo apt update || error_exit "Failed to update packages."
+sudo apt-get update || error_exit "Failed to update packages."
 
 echo "[*] Installing Node.js, npm..."
-sudo apt install -y nodejs npm || error_exit "Failed to install Node.js/npm."
+sudo apt-get install -y nodejs npm || error_exit "Failed to install Node.js/npm."
 
 echo "[*] Installing create-react-app..."
 sudo npm install -g create-react-app || error_exit "Failed to install create-react-app."
@@ -464,6 +464,7 @@ const MyRack = () => {
 };
 
 export default MyRack;
+
 EOF
 
 echo "[*] Replacing App.css..."
