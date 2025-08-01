@@ -35,7 +35,7 @@ Only one device needs the dashboard (usually your main machine or server).
 
 ### 🐧 Linux / 🍎 Mac
 ```
-curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-server.sh | bash
+curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-server.ps1 | bash
 ```
 ### 🪟 Windows PowerShell
 ```
