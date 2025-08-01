@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.15 Bash Edition)\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.16 Bash Edition)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
@@ -52,45 +52,22 @@ cd "$APP_DIR"
 echo "[*] Installing main dependencies..."
 npm install lucide-react recharts framer-motion || echo "[!] Warning: npm had warnings during dependency install."
 
-echo "[*] Installing Tailwind CSS + PostCSS (for CRA)..."
-npm install -D tailwindcss postcss autoprefixer || error_exit "Failed to install Tailwind dev dependencies."
-
-echo "[*] Initializing Tailwind config..."
-# Use npx instead of direct binary path - this is more reliable
-npx tailwindcss init -p || error_exit "Tailwind init failed."
-
-# Alternative method if npx fails
-if [ ! -f "tailwind.config.js" ]; then
-    echo "[*] Trying alternative Tailwind initialization..."
-    # Create config files manually if npx fails
-    cat << 'EOF' > tailwind.config.js
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-EOF
-
-    cat << 'EOF' > postcss.config.js
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
-EOF
-fi
-
 echo "[*] Updating index.css..."
 cat << 'EOF' > src/index.css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Base styles for Create React App */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
 EOF
 
 echo "[*] Writing App.css..."
@@ -780,11 +757,11 @@ sudo systemctl daemon-reload
 sudo systemctl enable myrack-dashboard
 sudo systemctl start myrack-dashboard
 
-echo -e "\n\033[1;32m✔ MyRack Dashboard is installed and running in the background!\033[0m"
+echo -e "\n\033[1;32m✔ MyRack Server is installed and running in the background!\033[0m"
 echo -e "\033[1;34m  Access it at: http://localhost:3000\033[0m"
 echo -e "\n\033[1;33m  To check status: sudo systemctl status myrack-dashboard\033[0m"
 echo -e "\033[1;33m  To view logs: sudo journalctl -u myrack-dashboard -f\033[0m"
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Finished MyRack Dashboard Setup\033[0m"
+echo -e "\033[1;36m  Finished MyRack Server Setup\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
