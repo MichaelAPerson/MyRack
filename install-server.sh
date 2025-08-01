@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server vBeta.14 Bash Edition)\033[0m"
+echo -e "\033[1;36m  Installing MyRack Server vBeta.15 Bash Edition)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
@@ -95,84 +95,242 @@ EOF
 
 echo "[*] Writing App.css..."
 cat << 'EOF' > src/App.css
-/* Custom styles for MyRack Dashboard */
-body {
+/* Reset and basics */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%);
+  overflow-x: hidden;
+  background: #000;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Base utilities */
+.min-h-screen {
+  min-height: 100vh;
 }
 
-.recharts-wrapper {
+.bg-gradient-to-br {
+  background: linear-gradient(to bottom right, #111827, #000000, #111827);
+}
+
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Flexbox & Grid */
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.flex-col { flex-direction: column; }
+.flex-1 { flex: 1 1 0%; }
+
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+
+/* Spacing */
+.space-x-1 > * + * { margin-left: 0.25rem; }
+.space-x-2 > * + * { margin-left: 0.5rem; }
+.space-x-4 > * + * { margin-left: 1rem; }
+.space-y-2 > * + * { margin-top: 0.5rem; }
+.space-y-4 > * + * { margin-top: 1rem; }
+
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.p-10 { padding: 2.5rem; }
+
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+
+.pt-2 { padding-top: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-2 { margin-top: 0.5rem; }
+
+/* Sizing */
+.w-3 { width: 0.75rem; }
+.w-16 { width: 4rem; }
+.w-24 { width: 6rem; }
+.w-48 { width: 12rem; }
+.w-64 { width: 16rem; }
+.w-full { width: 100%; }
+.max-w-md { max-width: 28rem; }
+.max-w-max { max-width: max-content; }
+
+.h-3 { height: 0.75rem; }
+.h-12 { height: 3rem; }
+.h-full { height: 100%; }
+
+/* Typography */
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.tracking-wide { letter-spacing: 0.025em; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.underline { text-decoration-line: underline; }
+
+/* Colors - Cyberpunk Theme */
+.bg-black { background-color: #000; }
+.bg-black\/50 { background-color: rgb(0 0 0 / 0.5); }
+.bg-black\/60 { background-color: rgb(0 0 0 / 0.6); }
+.bg-black\/90 { background-color: rgb(0 0 0 / 0.9); }
+.bg-gray-600 { background-color: #4b5563; }
+.bg-gray-700 { background-color: #374151; }
+.bg-gray-800 { background-color: #1f2937; }
+.bg-gray-900 { background-color: #111827; }
+.bg-green-500 { background-color: #10b981; }
+.bg-red-500 { background-color: #ef4444; }
+.bg-yellow-500 { background-color: #f59e0b; }
+.bg-cyan-500 { background-color: #06b6d4; }
+.bg-cyan-700 { background-color: #0e7490; }
+
+.text-black { color: #000; }
+.text-white { color: #ffffff; }
+.text-cyan-100 { color: #cffafe; }
+.text-cyan-200 { color: #a5f3fc; }
+.text-cyan-300 { color: #67e8f9; }
+.text-cyan-400 { color: #22d3ee; }
+.text-cyan-500 { color: #06b6d4; }
+.text-gray-400 { color: #9ca3af; }
+.text-gray-500 { color: #6b7280; }
+.placeholder-cyan-500::placeholder { color: #06b6d4; }
+
+/* Borders */
+.border { border-width: 1px; }
+.border-b { border-bottom-width: 1px; }
+.border-t { border-top-width: 1px; }
+.border-r { border-right-width: 1px; }
+
+.border-cyan-400 { border-color: #22d3ee; }
+.border-cyan-500 { border-color: #06b6d4; }
+.border-cyan-600 { border-color: #0891b2; }
+.border-cyan-700 { border-color: #0e7490; }
+.border-gray-600 { border-color: #4b5563; }
+
+.rounded { border-radius: 0.25rem; }
+.rounded-md { border-radius: 0.375rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.rounded-xl { border-radius: 0.75rem; }
+.rounded-full { border-radius: 9999px; }
+
+/* Interactivity & States */
+.cursor-pointer { cursor: pointer; }
+.cursor-not-allowed { cursor: not-allowed; }
+.opacity-60 { opacity: 0.6; }
+.select-text { user-select: text; }
+.select-none { user-select: none; }
+.pointer-events-none { pointer-events: none; }
+
+.hover\:bg-cyan-400:hover { background-color: #22d3ee; }
+.hover\:bg-cyan-800:hover { background-color: #155e75; }
+.hover\:bg-gray-800:hover { background-color: #1f2937; }
+.hover\:border-cyan-400:hover { border-color: #22d3ee; }
+.hover\:text-white:hover { color: #ffffff; }
+.hover\:text-cyan-300:hover { color: #67e8f9; }
+
+.focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
+.focus\:ring-2:focus { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); }
+.focus\:ring-cyan-400:focus { --tw-ring-color: #22d3ee; }
+
+/* Positioning & Layout */
+.fixed { position: fixed; }
+.absolute { position: absolute; }
+.relative { position: relative; }
+.sticky { position: sticky; }
+.hidden { display: none; }
+.block { display: block; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.top-0 { top: 0; }
+.left-0 { left: 0; }
+.right-0 { right: 0; }
+
+.z-20 { z-index: 20; }
+.z-30 { z-index: 30; }
+.z-40 { z-index: 40; }
+.z-50 { z-index: 50; }
+
+/* Transitions & Transforms */
+.transition { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter; transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.duration-300 { transition-duration: 300ms; }
+.duration-500 { transition-duration: 500ms; }
+
+.-translate-x-full { transform: translateX(-100%); }
+.translate-x-0 { transform: translateX(0px); }
+
+/* Shadows & Filters */
+.shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+.shadow-cyan-500\/20 { box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.2), 0 4px 6px -2px rgba(6, 182, 212, 0.1); }
+.shadow-cyan-500\/30 { box-shadow: 0 0 25px rgba(6, 182, 212, 0.3); }
+
+/* Other */
+.overflow-hidden { overflow: hidden; }
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .lg\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lg\:block {
+      display: block;
+  }
+}
+@media (min-width: 1280px) {
+  .xl\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+::-webkit-scrollbar-thumb {
+  background: #06b6d4;
   border-radius: 4px;
 }
-
-.recharts-line-curve {
-  filter: drop-shadow(0 0 2px #00ffff);
-}
-
-/* Custom scrollbar for device list */
-.max-h-32::-webkit-scrollbar {
-  width: 4px;
-}
-
-.max-h-32::-webkit-scrollbar-track {
-  background: #374151;
-  border-radius: 2px;
-}
-
-.max-h-32::-webkit-scrollbar-thumb {
-  background: #06b6d4;
-  border-radius: 2px;
-}
-
-.max-h-32::-webkit-scrollbar-thumb:hover {
-  background: #0891b2;
-}
-
-/* Glow effects */
-.shadow-cyan-500\/20 {
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
-}
-
-.shadow-cyan-500\/30 {
-  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
-}
-
-/* Animation for status indicators */
-.bg-green-500 {
-  animation: pulse-green 2s infinite;
-}
-
-@keyframes pulse-green {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-.bg-red-500 {
-  animation: pulse-red 1s infinite;
-}
-
-@keyframes pulse-red {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.bg-yellow-500 {
-  animation: pulse-yellow 1.5s infinite;
-}
-
-@keyframes pulse-yellow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+::-webkit-scrollbar-thumb:hover {
+  background: #22d3ee;
 }
 EOF
 
@@ -250,7 +408,7 @@ const SetupModal = ({ userName, setUserName, devices, setDevices, onComplete }) 
             <button
               onClick={handleAddDevice}
               disabled={!deviceName.trim() || !deviceIP.trim()}
-              className="w-full py-2 mb-4 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2 mb-4 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400"
             >
               Add Device
             </button>
@@ -274,15 +432,11 @@ const SetupModal = ({ userName, setUserName, devices, setDevices, onComplete }) 
             </div>
             <div>
               <span className="font-semibold text-cyan-400">Devices:</span>
-              {devices.length === 0 ? (
-                <span className="text-yellow-400 ml-2">No devices added</span>
-              ) : (
-                <ul className="pl-4 list-disc">
-                  {devices.map(d => (
-                    <li key={d.id}>{d.name} - {d.ip}</li>
-                  ))}
-                </ul>
-              )}
+              <ul className="pl-4 list-disc">
+                {devices.map(d => (
+                  <li key={d.id}>{d.name} - {d.ip}</li>
+                ))}
+              </ul>
             </div>
           </div>
         )}
@@ -300,7 +454,7 @@ const SetupModal = ({ userName, setUserName, devices, setDevices, onComplete }) 
             <button
               onClick={() => canContinue() && setStep(step + 1)}
               disabled={!canContinue()}
-              className="flex-1 py-2 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 py-2 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400"
             >
               Next
             </button>
@@ -308,6 +462,7 @@ const SetupModal = ({ userName, setUserName, devices, setDevices, onComplete }) 
           {step === 3 && (
             <button
               onClick={onComplete}
+              disabled={!userName.trim() || devices.length === 0}
               className="flex-1 py-2 rounded-md bg-cyan-500 text-black font-semibold hover:bg-cyan-400"
             >
               Finish
@@ -379,11 +534,9 @@ const MyRack = () => {
       });
     };
 
-    if (devices.length > 0) {
-      fetchStats();
-      const interval = setInterval(fetchStats, 2000);
-      return () => clearInterval(interval);
-    }
+    fetchStats();
+    const interval = setInterval(fetchStats, 2000);
+    return () => clearInterval(interval);
   }, [devices]);
 
   useEffect(() => {
@@ -584,27 +737,18 @@ const MyRack = () => {
       </header>
 
       <main className="p-6">
-        {servers.length === 0 ? (
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center">
-              <Server size={64} className="text-cyan-400 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-cyan-400 mb-2">No Servers Connected</h2>
-              <p className="text-cyan-300">Add some devices in the setup to see your server dashboard.</p>
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-            {servers.map(server => (
-              <ServerCard key={server.id} server={server} />
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+          {servers.map(server => (
+            <ServerCard key={server.id} server={server} />
+          ))}
+        </div>
       </main>
     </div>
   );
 };
 
 export default MyRack;
+
 EOF
 
 echo "[*] Creating systemd service..."
