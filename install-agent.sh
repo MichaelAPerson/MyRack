@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Agent vBeta.9 Bash Edition\033[0m"
+echo -e "\033[1;36m  Installing MyRack Agent v1.0 (Bash Edition)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
