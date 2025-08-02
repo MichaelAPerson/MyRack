@@ -3,7 +3,7 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Server v1.0 (Bash Edition)\033[0m"
+echo -e "\033[1;36m  Installing MyRack Dashboard v1.0 (Bash Edition)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
@@ -757,11 +757,11 @@ sudo systemctl daemon-reload
 sudo systemctl enable myrack-dashboard
 sudo systemctl start myrack-dashboard
 
-echo -e "\n\033[1;32m✔ MyRack Server is installed and running in the background!\033[0m"
+echo -e "\n\033[1;32m✔ MyRack Dashboard is installed and running in the background!\033[0m"
 echo -e "\033[1;34m  Access it at: http://localhost:3000\033[0m"
 echo -e "\n\033[1;33m  To check status: sudo systemctl status myrack-dashboard\033[0m"
 echo -e "\033[1;33m  To view logs: sudo journalctl -u myrack-dashboard -f\033[0m"
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installed MyRack Server\033[0m"
+echo -e "\033[1;36m  Installed MyRack Dashboard\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
