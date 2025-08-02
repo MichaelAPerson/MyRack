@@ -22,7 +22,7 @@ function Handle-Error {
 
 # Header
 Write-ColorOutput "`n=========================================" "Magenta"
-Write-ColorOutput "  Installing MyRack Server v1.0 (PowerShell Edition)" "Cyan"
+Write-ColorOutput "  Installing MyRack Dashboard v1.0 (PowerShell Edition)" "Cyan"
 Write-ColorOutput "  By: Michael Fischer" "Green"
 Write-ColorOutput "=========================================" "Magenta"
 
@@ -833,12 +833,12 @@ try {
 }
 
 # Success message
-Write-ColorOutput "`n✔ MyRack Server is installed and running!" "Green"
+Write-ColorOutput "`n✔ MyRack Dashboard is installed and running!" "Green"
 Write-ColorOutput "  Access it at: http://localhost:3000" "Cyan"
 Write-ColorOutput "`n  To start manually: Run start-myrack.bat in $APP_DIR" "Yellow"
 Write-ColorOutput "  To stop: Close the command prompt window or press Ctrl+C" "Yellow"
 Write-ColorOutput "`n=========================================" "Magenta"
-Write-ColorOutput "  Installed MyRack Server" "Cyan"
+Write-ColorOutput "  Installed MyRack Dashboard" "Cyan"
 Write-ColorOutput "  By: Michael Fischer" "Green"
 Write-ColorOutput "=========================================" "Magenta"
 
