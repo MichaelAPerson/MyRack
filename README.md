@@ -8,7 +8,7 @@
 
 ## 📘 What is MyRack?
 
-**MyRack** is a self-hosted monitoring tool for Linux computers and servers. It displays real-time usage of:
+**MyRack** is a self-hosted monitoring tool for computers and servers. It displays real-time usage of:
 - 💽 CPU
 - 🧠 Memory
 - 🌐 Network
