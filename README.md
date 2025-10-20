@@ -35,9 +35,9 @@ Only one device needs the dashboard (usually your main machine or server).
 
 ### 🐧 Linux / 🍎 Mac
 ```
-curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.ps1 | bash
+curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh | bash
 ```
 ### 🪟 Windows PowerShell
 ```
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.sh" -UseBasicParsing | Invoke-Expression
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.ps1" -UseBasicParsing | Invoke-Expression
 ```
