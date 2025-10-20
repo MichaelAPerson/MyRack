@@ -41,3 +41,11 @@ curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-
 ```
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-dashboard.ps1" -UseBasicParsing | Invoke-Expression
 ```
+
+## 📊📥 Install both the dashboard and the agent
+
+
+### 🐧 Linux / 🍎 Mac
+```
+curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/myrack/main/install-all.sh | bash
+```
