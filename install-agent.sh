@@ -3,11 +3,9 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Agent v1.0 (Bash Edition)\033[0m"
+echo -e "\033[1;36m  Installing MyRack Agent v1.1 (Bash Edition)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
-
-echo -e "\n\033[1;35m=========================================\033[0m"
 
 cat <<EOF
 
@@ -21,8 +19,6 @@ cat <<EOF
 EOF
 
 echo -e "\033[1;35m=========================================\033[0m"
-
-
 
 error_exit() {
   echo -e "\n\033[1;31m✖ Error: $1\033[0m"
@@ -60,6 +56,14 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
+// Helper to format bytes into KB/MB/GB
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  else if (bytes < 1024*1024) return (bytes/1024).toFixed(2) + ' KB';
+  else if (bytes < 1024*1024*1024) return (bytes/(1024*1024)).toFixed(2) + ' MB';
+  return (bytes/(1024*1024*1024)).toFixed(2) + ' GB';
+}
+
 app.get('/stats', async (req, res) => {
   try {
     const [cpuLoad, mem, fs, net] = await Promise.all([
@@ -69,11 +73,15 @@ app.get('/stats', async (req, res) => {
       si.networkStats()
     ]);
 
+    const networkSpeed = (net[0]?.rx_sec + net[0]?.tx_sec) || 0;
+
     const data = {
       cpu: cpuLoad.currentLoad,
-      memory: (mem.active / mem.total) * 100,
-      storage: (fs[0].used / fs[0].size) * 100,
-      network: (net[0]?.rx_sec + net[0]?.tx_sec) / 1024,
+      memoryUsed: formatBytes(mem.active),
+      memoryTotal: formatBytes(mem.total),
+      storageUsed: formatBytes(fs[0]?.used || 0),
+      storageTotal: formatBytes(fs[0]?.size || 0),
+      networkBps: networkSpeed, // bytes/sec
       ip: req.socket.localAddress,
       status: 'online'
     };
@@ -91,7 +99,6 @@ app.listen(PORT, () => {
 EOF
 
 echo "[*] Creating systemd service file..."
-
 SERVICE_FILE="/etc/systemd/system/myrack-agent.service"
 
 sudo bash -c "cat > $SERVICE_FILE" << EOF
