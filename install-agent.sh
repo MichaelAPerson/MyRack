@@ -3,17 +3,17 @@
 set -euo pipefail
 
 echo -e "\n\033[1;35m=========================================\033[0m"
-echo -e "\033[1;36m  Installing MyRack Agent v1.1 (Bash Edition)\033[0m"
+echo -e "\033[1;36m  Installing MyRack Agent v1.1.2 (Bash Edition)\033[0m"
 echo -e "\033[1;32m  By: Michael Fischer\033[0m"
 echo -e "\033[1;35m=========================================\033[0m\n"
 
-cat <<EOF
+cat <<'EOF'
 
  __  __       ____            _
 |  \/  |_   _|  _ \ __ _  ___| | __
-| |\/| | | | | |_) / _\` |/ __| |/ /
+| |\/| | | | | |_) / _` |/ __| |/ /
 | |  | | |_| |  _ < (_| | (__|   <
-|_|  |_|\__, |_| \_\__,_|\___|_|\_\\
+|_|  |_|\__, |_| \_\__,_|\___|_|\_\
         |___/
 
 EOF
@@ -30,6 +30,12 @@ trap 'error_exit "Something went wrong during installation."' ERR
 get_pi_ip() {
   hostname -I | awk '{print $1}'
 }
+
+# Remove problematic Yarn repo to prevent apt errors
+if [ -f /etc/apt/sources.list.d/yarn.list ]; then
+    echo "[*] Removing Yarn repo to prevent update errors..."
+    sudo rm /etc/apt/sources.list.d/yarn.list
+fi
 
 echo "[*] Updating package list..."
 sudo apt update || error_exit "Failed to update packages."
@@ -56,14 +62,6 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
-// Helper to format bytes into KB/MB/GB
-function formatBytes(bytes) {
-  if (bytes < 1024) return bytes + ' B';
-  else if (bytes < 1024*1024) return (bytes/1024).toFixed(2) + ' KB';
-  else if (bytes < 1024*1024*1024) return (bytes/(1024*1024)).toFixed(2) + ' MB';
-  return (bytes/(1024*1024*1024)).toFixed(2) + ' GB';
-}
-
 app.get('/stats', async (req, res) => {
   try {
     const [cpuLoad, mem, fs, net] = await Promise.all([
@@ -73,15 +71,11 @@ app.get('/stats', async (req, res) => {
       si.networkStats()
     ]);
 
-    const networkSpeed = (net[0]?.rx_sec + net[0]?.tx_sec) || 0;
-
     const data = {
       cpu: cpuLoad.currentLoad,
-      memoryUsed: formatBytes(mem.active),
-      memoryTotal: formatBytes(mem.total),
-      storageUsed: formatBytes(fs[0]?.used || 0),
-      storageTotal: formatBytes(fs[0]?.size || 0),
-      networkBps: networkSpeed, // bytes/sec
+      memory: (mem.active / mem.total) * 100,
+      storage: (fs[0]?.used / fs[0]?.size) * 100,
+      network: ((net[0]?.rx_sec || 0) + (net[0]?.tx_sec || 0)) / 1024,
       ip: req.socket.localAddress,
       status: 'online'
     };
@@ -128,9 +122,8 @@ sudo systemctl start myrack-agent || error_exit "Failed to start service."
 PI_IP=$(get_pi_ip)
 
 echo -e "\n\033[1;32m✔ MyRack Agent installed and running!\033[0m"
-echo -e "\033[1;34m  Add this device to your MyRack dashboard with: $PI_IP\033[0m"
-echo -e "\033[1;34m  If you don't have the MyRack dashboard setup, install it with:\033[0m"
-echo -e "\033[1;36m  curl -s https://raw.githubusercontent.com/MyRack/myrack-agent/master/install-agent.sh | bash\033[0m"
+echo -e "\033[1;34m  Add this device to your MyRack dashboard with IP: $PI_IP\033[0m"
+echo -e "\033[1;34m  If you don't have the MyRack dashboard setup, install it separately.\033[0m"
 
 echo -e "\n\033[1;35m=========================================\033[0m"
 echo -e "\033[1;36m  Installed MyRack Agent\033[0m"
