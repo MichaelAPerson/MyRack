@@ -3,14 +3,15 @@
 🚀 INSTALL MYRACK
 MyRack Status Platform Install Script
 
-📘 What is MyRack?
-MyRack is a self-hosted monitoring tool for computers and servers. It displays real-time usage of:
+## 📘 What is MyRack?
 
-💽 CPU
-🧠 Memory
-🗄️ Storage
+**MyRack** is a self-hosted monitoring tool for computers and servers. It displays real-time usage of:
+- 💽 CPU
+- 🧠 Memory
+- 🌐 Network
+- 🗄️ Storage
+
 No cloud — your data stays on your machines.
-
 
 
 ## How it's put together
