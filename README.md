@@ -103,7 +103,6 @@ Stats should appear on the dashboard within a few seconds of the agent starting.
 - **Storage**: metrics live in a single JSON file with the last ~24h kept per device. Great for a homelab-sized fleet; if you grow to dozens of machines or want longer retention, swap `hub/store.js` for SQLite or Postgres - nothing else in the app needs to change.
 - **Alerts are local browser notifications only** right now (offline device, high CPU). Webhooks (Slack/Discord/generic) and configurable thresholds are natural next steps if you want alerting that doesn't depend on a browser tab being open.
 - **Charts** are intentionally minimal (a raw-SVG CPU sparkline, no charting library). Memory/disk-over-time, network throughput, and temperature graphs are reasonable additions.
-- See [SECURITY.md](./SECURITY.md) for what to harden before exposing this past your LAN.
 
 ## API reference (hub)
 
