@@ -1,0 +1,82 @@
+:root {
+  /* Color: a server room at night, lit by status LEDs */
+  --void: #0b0d10;
+  --panel: #15181d;
+  --panel-raised: #1b1f26;
+  --steel: #2a2f38;
+  --steel-light: #3a4150;
+
+  --amber: #ffb454; /* brand / primary accent, like a rack power LED */
+  --amber-dim: #946530;
+  --led-green: #4ade80; /* device online */
+  --led-red: #f66b6b; /* device offline / critical */
+  --led-blue: #5ec8f5; /* informational */
+
+  --text-primary: #e7e9ec;
+  --text-muted: #8b92a0;
+  --text-faint: #5b6270;
+
+  /* Type */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', monospace;
+
+  /* Layout */
+  --radius: 6px;
+  --header-height: 56px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--void);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 180, 84, 0.04), transparent 60%);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: var(--font-body);
+}
+
+a {
+  color: var(--amber);
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--steel);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--steel-light);
+}

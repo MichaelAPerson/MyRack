@@ -1,0 +1,14 @@
+{
+  "name": "myrack-agent",
+  "version": "0.2.0",
+  "description": "MyRack agent - collects system stats and reports them to a MyRack hub",
+  "main": "agent.js",
+  "type": "commonjs",
+  "bin": { "myrack-agent": "./agent.js" },
+  "scripts": {
+    "start": "node agent.js"
+  },
+  "dependencies": {
+    "systeminformation": "^5.23.5"
+  }
+}

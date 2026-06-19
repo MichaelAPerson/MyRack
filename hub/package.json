@@ -1,0 +1,18 @@
+{
+  "name": "myrack-hub",
+  "version": "0.2.0",
+  "description": "MyRack dashboard hub - receives metrics from agents and serves the dashboard UI",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "nanoid": "^3.3.7",
+    "socket.io": "^4.8.0"
+  }
+}

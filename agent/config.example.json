@@ -1,0 +1,5 @@
+{
+  "hubUrl": "http://192.168.1.5:4280",
+  "apiKey": "paste-the-api-key-shown-when-you-added-this-device-in-the-dashboard",
+  "intervalSeconds": 5
+}
