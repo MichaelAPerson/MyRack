@@ -1,6 +1,4 @@
-# MyRack by: MichaelAPerson, Michael Fischer
-
-## 🚀 INSTALL MYRACK
+# 🚀 INSTALL MYRACK
 
 ## 📘 What is MyRack?
 
@@ -43,3 +41,5 @@ curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/MyRack/main/auto-res
 **7. Click + Add Widget**
 
 **8. Select the device you just added**
+
+### MyRack by: MichaelAPerson, Michael Fischer
