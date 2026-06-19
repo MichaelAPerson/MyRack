@@ -1,6 +1,6 @@
 # MyRack by: MichaelAPerson, Michael Fischer
 
-##🚀 INSTALL MYRACK##
+##🚀 INSTALL MYRACK
 
 ## 📘 What is MyRack?
 
