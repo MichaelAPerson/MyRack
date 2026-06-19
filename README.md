@@ -1,6 +1,6 @@
-# MyRack
+# MyRack by: MichaelAPerson, Michael Fischer
 
-🚀 INSTALL MYRACK
+##🚀 INSTALL MYRACK##
 
 ## 📘 What is MyRack?
 
@@ -15,7 +15,7 @@ No cloud — your data stays on your machines.
 
 ### 📊 Install the Hub
 ```
-sudo curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/MyRack/main/install-hub.sh | bash
+curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/MyRack/main/install-hub.sh | bash
 ```
 
 ###  📥  Install the Agent Auto-Restart Tool
@@ -24,5 +24,22 @@ sudo curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/MyRack/main/ins
 curl -fsSL https://raw.githubusercontent.com/MichaelAPerson/MyRack/main/auto-restart.sh | bash
 ```
 
-## How do I add devices to my hub?
-**To add devices to the hub you will click the *Devices* button and enter the device's name you want to add, then it will provide you a command that you can copy and paste in the terminal of the device you are adding, then once it is connected you then click on the *+Add widget* button and can select the device you just setup. After you do that you are going to want to copy the command to Install the Agent Auto-Restart Tool**
+## ➕ Adding Devices
+
+### To add a device to your MyRack hub:
+
+**1. Open the MyRack dashboard in your browser**
+
+**2. Click Devices**
+
+**3. Enter a name for the device**
+
+**4. The hub will generate an install command**
+
+**5. Copy and run that command on the target device**
+
+**6. Wait for it to connect**
+
+**7. Click + Add Widget**
+
+**8. Select the device you just added**
