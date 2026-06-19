@@ -1,8 +1,17 @@
 # MyRack
 
-A self-hosted dashboard for monitoring all your machines — Linux, Windows, whatever — in one place. One device runs the **hub** (the dashboard you open in a browser, e.g. `http://192.168.1.5:4280`). Every other device runs the lightweight **agent**, which reads CPU/memory/disk/uptime and pushes it to the hub. On the dashboard you log in, add devices, drag and resize widgets, and drop in iframes for anything else you want on the board (router admin page, Grafana, a status page, whatever).
+🚀 INSTALL MYRACK
+MyRack Status Platform Install Script
 
-Built to be comfortable for a homelab and not embarrassing in front of a security-conscious team: login is required, API keys are never re-exposed after creation, and the only unauthenticated endpoint is the one agents use to report in. See [SECURITY.md](./SECURITY.md) for the full model and what to do before exposing it past your LAN.
+📘 What is MyRack?
+MyRack is a self-hosted monitoring tool for computers and servers. It displays real-time usage of:
+
+💽 CPU
+🧠 Memory
+🗄️ Storage
+No cloud — your data stays on your machines.
+
+
 
 ## How it's put together
 
