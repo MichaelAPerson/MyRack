@@ -1,0 +1,26 @@
+# Example systemd unit for keeping the MyRack agent running on a Linux device.
+#
+# Setup:
+#   1. Copy the agent/ folder to e.g. /opt/myrack-agent on this machine, with
+#      config.json already filled in.
+#   2. Copy this file to /etc/systemd/system/myrack-agent.service and adjust
+#      the User and WorkingDirectory/ExecStart paths below.
+#   3. sudo systemctl daemon-reload
+#   4. sudo systemctl enable --now myrack-agent
+#   5. journalctl -u myrack-agent -f   (to watch its logs)
+
+[Unit]
+Description=MyRack monitoring agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=myrack
+WorkingDirectory=/opt/myrack-agent
+ExecStart=/usr/bin/node /opt/myrack-agent/agent.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

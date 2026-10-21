@@ -1,0 +1,5 @@
+node_modules/
+hub/data/db.json
+hub/data/db.json.tmp
+agent/config.json
+npm-debug.log*

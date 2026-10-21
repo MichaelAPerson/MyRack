@@ -1,0 +1,33 @@
+[2026-10-19T00:24:28.129Z] [INFO] MyRack hub v0.2.0 listening on http://0.0.0.0:4280
+[2026-10-19T00:24:41.977Z] [INFO] Admin account created (admin)
+[2026-10-19T00:26:47.459Z] [INFO] Device created: pc (UAiKP4BArt)
+[2026-10-19T00:28:02.170Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-19T15:50:54.458Z] [WARN] Agent went offline: pc (UAiKP4BArt)
+[2026-10-19T15:50:57.134Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-19T16:08:08.749Z] [INFO] MyRack hub v0.2.0 listening on http://0.0.0.0:4280
+[2026-10-19T16:08:11.165Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-19T16:09:02.215Z] [INFO] MyRack hub v0.2.0 listening on http://0.0.0.0:4280
+[2026-10-19T16:09:09.762Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-19T16:37:50.883Z] [INFO] MyRack hub v0.2.0 listening on http://0.0.0.0:4280
+[2026-10-19T16:37:54.593Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-19T16:43:11.723Z] [INFO] MyRack hub v0.2.0 listening on http://0.0.0.0:4280
+[2026-10-19T16:43:14.955Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-19T17:29:40.856Z] [WARN] Failed login attempt for username "admin"
+[2026-10-19T17:29:47.607Z] [INFO] Login: admin
+[2026-10-19T17:32:18.720Z] [INFO] Login: admin
+[2026-10-19T18:16:47.630Z] [WARN] Agent went offline: pc (UAiKP4BArt)
+[2026-10-19T18:17:02.293Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-19T18:38:52.152Z] [INFO] MyRack hub v0.2.0 listening on http://0.0.0.0:4280
+[2026-10-19T18:38:56.772Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-20T22:05:29.434Z] [INFO] MyRack hub v0.2.0 listening on http://0.0.0.0:4280
+[2026-10-20T22:05:36.979Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-20T23:16:00.001Z] [INFO] Login: admin
+[2026-10-21T00:45:40.899Z] [INFO] Device created: cloudflare (ajuTjWJEft)
+[2026-10-21T00:46:10.658Z] [INFO] Device removed: cloudflare (ajuTjWJEft)
+[2026-10-21T01:59:54.778Z] [INFO] Login: admin
+[2026-10-21T02:06:25.661Z] [INFO] MyRack hub v0.2.0 listening on http://0.0.0.0:4280
+[2026-10-21T02:06:36.828Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-21T03:20:20.864Z] [WARN] Agent went offline: pc (UAiKP4BArt)
+[2026-10-21T03:20:27.711Z] [INFO] Agent connected: pc (UAiKP4BArt)
+[2026-10-21T03:35:42.059Z] [WARN] Agent went offline: pc (UAiKP4BArt)
+[2026-10-21T03:36:08.042Z] [INFO] Agent connected: pc (UAiKP4BArt)

@@ -1,0 +1,25 @@
+# Example systemd unit for keeping the MyRack hub running on a Linux machine,
+# as an alternative to pm2.
+#
+# Setup:
+#   1. Adjust User and the two path lines below to match where you cloned the repo.
+#   2. sudo cp this file to /etc/systemd/system/myrack-hub.service
+#   3. sudo systemctl daemon-reload
+#   4. sudo systemctl enable --now myrack-hub
+#   5. journalctl -u myrack-hub -f   (to watch its logs)
+
+[Unit]
+Description=MyRack monitoring hub
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=myrack
+WorkingDirectory=/opt/myrack/hub
+ExecStart=/usr/bin/node /opt/myrack/hub/server.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
